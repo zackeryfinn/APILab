@@ -1,0 +1,86 @@
+﻿@model eCommerce.Models.Product
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Product</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            $ @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt>
+            Quantity
+        </dt>
+
+        <dd>
+            <div id="data"></div>
+        </dd>
+
+    </dl>
+    <form action="http://localhost:50622/api/orders" method="post">
+        <select name="NumberOrdered">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <input type="hidden" name="ID" value="@Model.Id" />
+        <input type="submit" name="btn-group" value="BUY NOW" />
+    </form>
+</div>
+
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script language="javascript">
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: 'http://localhost:50622/api/inventories/@Model.Id',
+                success: function (data) {
+                    $("#data").text(data.Quantity);
+                }
+               
+            });
+
+
+        });
+
+    </script>
+
+
+}
+
